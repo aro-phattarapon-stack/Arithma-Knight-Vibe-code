@@ -1,0 +1,6 @@
+# Vercel Ignore Rules
+docs/
+test_combat.js
+.git
+.github
+*.log

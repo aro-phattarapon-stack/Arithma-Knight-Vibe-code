@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arithma Knights - Tactical Arithmetic RPG</title>
+  <!-- Google Fonts: Cinzel & Crimson Text for Authentic Medieval Fantasy Art Direction -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app-viewport">
+    <div id="game-container">
+      <!-- 2D Canvas Viewport (1920x1080 logical resolution) -->
+      <!-- STRICT RULE: Canvas is strictly a visual renderer for world, characters, and particles -->
+      <canvas id="game-canvas"></canvas>
+
+      <!-- HTML/CSS UI Overlay (Strict Rule: All HUD, text, cards, and screens live in DOM) -->
+      <div id="ui-layer">
+
+        <!-- ====================================================================
+             SCREEN 1: MAIN MENU / TITLE SCREEN (Medieval Fantasy Forest Theme)
+             ==================================================================== -->
+        <div id="title-screen" class="screen-view title-screen-layout">
+          <!-- Enchanted Fantasy Forest Atmosphere Layers -->
+          <div class="forest-glow-overlay"></div>
+          <div class="forest-fireflies-container">
+            <div class="firefly firefly-1"></div>
+            <div class="firefly firefly-2"></div>
+            <div class="firefly firefly-3"></div>
+            <div class="firefly firefly-4"></div>
+            <div class="firefly firefly-5"></div>
+            <div class="firefly firefly-6"></div>
+            <div class="firefly firefly-7"></div>
+            <div class="firefly firefly-8"></div>
+          </div>
+          <div class="forest-trees-silhouette"></div>
+
+          <!-- Medieval Fantasy Forest Grand Archway Portal Frame -->
+          <div class="medieval-portal-frame">
+            <!-- Left Heraldic Banner -->
+            <div class="heraldic-banner banner-left">
+              <div class="banner-top-rod"></div>
+              <div class="banner-cloth cloth-azure">
+                <div class="banner-crest">
+                  <svg class="rpg-svg-icon" viewBox="0 0 24 24"><path d="M14.7 3.3a1 1 0 0 0-1.4 0L8.6 8 4 6.7a1 1 0 0 0-1.2 1.2L4 12.6l-2.7 2.7a1 1 0 0 0 0 1.4l2 2a1 1 0 0 0 1.4 0L7.4 16l4.7 1.2a1 1 0 0 0 1.2-1.2L12 11.4l4.7-4.7a1 1 0 0 0 0-1.4l-2-2z"/></svg>
+                </div>
+                <div class="banner-op-symbol">−</div>
+                <div class="banner-title">VALOR</div>
+              </div>
+              <div class="banner-tails"></div>
+            </div>
+
+            <!-- Left Iron Torch -->
+            <div class="portal-torch torch-left">
+              <div class="torch-bracket"></div>
+              <div class="torch-basket"></div>
+              <div class="torch-flame"></div>
+              <div class="torch-glow"></div>
+            </div>
+
+            <!-- Central Medieval Proclamation Stone Card -->
+            <div class="title-content-card medieval-card-skin">
+              <!-- Four Corner Ornate Metal Rivets -->
+              <span class="corner-rivet rivet-tl">◆</span>
+              <span class="corner-rivet rivet-tr">◆</span>
+              <span class="corner-rivet rivet-bl">◆</span>
+              <span class="corner-rivet rivet-br">◆</span>
+
+              <!-- Royal Medieval Crest -->
+              <div class="medieval-crest-header">
+                <div class="crest-swords">
+                  <svg class="rpg-svg-icon crest-svg" viewBox="0 0 24 24"><path d="M14.7 3.3a1 1 0 0 0-1.4 0L8.6 8 4 6.7a1 1 0 0 0-1.2 1.2L4 12.6l-2.7 2.7a1 1 0 0 0 0 1.4l2 2a1 1 0 0 0 1.4 0L7.4 16l4.7 1.2a1 1 0 0 0 1.2-1.2L12 11.4l4.7-4.7a1 1 0 0 0 0-1.4l-2-2z"/></svg>
+                </div>
+                <div class="crest-operator-runes">
+                  <span class="rune-pill rune-sub" title="Knight (−)">−</span>
+                  <span class="rune-pill rune-div" title="Berserker (÷)">÷</span>
+                  <span class="rune-pill rune-add" title="Cleric (+)">+</span>
+                  <span class="rune-pill rune-mul" title="Paladin (×)">×</span>
+                </div>
+              </div>
+
+              <h1 class="title-main">ARITHMA KNIGHTS</h1>
+              <p class="title-tagline">Tactical Arithmetic RPG • Medieval Fantasy Realm</p>
+
+              <div class="title-lore medieval-parchment-lore">
+                <div class="lore-lead">The ancient realm has fallen into mathematical corruption.</div>
+                Command the <strong>Four Legendary Order of Arithmetic</strong>:
+                <strong>Knight (−)</strong>, <strong>Berserker (÷)</strong>, <strong>Cleric (+)</strong>, and <strong>Paladin (×)</strong>.
+                Harness enchanted number stones to vanquish corrupted numerical anomalies and the apocalyptic <strong>Factorio</strong>!
+              </div>
+
+              <!-- Primary Action Controls (Chunky Medieval Buttons) -->
+              <div class="title-btn-group">
+                <button id="btn-start-game" class="modal-primary-btn main-start-btn medieval-expedition-btn" type="button">
+                  <span class="btn-icon">
+                    <svg class="rpg-svg-icon" viewBox="0 0 24 24"><path d="M14.7 3.3a1 1 0 0 0-1.4 0L8.6 8 4 6.7a1 1 0 0 0-1.2 1.2L4 12.6l-2.7 2.7a1 1 0 0 0 0 1.4l2 2a1 1 0 0 0 1.4 0L7.4 16l4.7 1.2a1 1 0 0 0 1.2-1.2L12 11.4l4.7-4.7a1 1 0 0 0 0-1.4l-2-2z"/></svg>
+                  </span>
+                  <span>ENTER EXPEDITION</span>
+                </button>
+                <button id="btn-title-help" class="modal-secondary-btn medieval-manual-btn" type="button">
+                  <span class="btn-icon">
+                    <svg class="rpg-svg-icon" viewBox="0 0 24 24"><path d="M19 3H7a4 4 0 0 0-4 4v10a4 4 0 0 0 4 4h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM7 5h12v12H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm0 14a2 2 0 0 1 0-4h12v2a2 2 0 0 1-2 2H7z"/></svg>
+                  </span>
+                  <span>FIELD MANUAL</span>
+                </button>
+              </div>
+
+              <!-- Ancient Legendary Sword in the Stone Altar Decoration -->
+              <div class="sword-stone-altar" title="The Sacred Blade of Arithmetic">
+                <div class="altar-sword">
+                  <div class="sword-pommel"></div>
+                  <div class="sword-crossguard"></div>
+                  <div class="sword-blade"></div>
+                </div>
+                <div class="altar-stone">
+                  <span class="altar-runes">⟡ 6! ⟡ 2¹⁰ ⟡</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Iron Torch -->
+            <div class="portal-torch torch-right">
+              <div class="torch-bracket"></div>
+              <div class="torch-basket"></div>
+              <div class="torch-flame"></div>
+              <div class="torch-glow"></div>
+            </div>
+
+            <!-- Right Heraldic Banner -->
+            <div class="heraldic-banner banner-right">
+              <div class="banner-top-rod"></div>
+              <div class="banner-cloth cloth-crimson">
+                <div class="banner-crest">
+                  <svg class="rpg-svg-icon" viewBox="0 0 24 24"><path d="M12 2L4 5v6.1c0 5.6 3.4 10.7 8 11.9 4.6-1.2 8-6.3 8-11.9V5l-8-3z"/></svg>
+                </div>
+                <div class="banner-op-symbol">×</div>
+                <div class="banner-title">MIGHT</div>
+              </div>
+              <div class="banner-tails"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====================================================================
+             SCREEN 2: STAGE SELECT (Living Overworld Forest Map & Expedition Nodes)
+             ==================================================================== -->
+        <div id="stage-select-screen" class="screen-view stage-select-screen-layout hidden">
+          <!-- Option B: Multi-Layer Living Atmospheric Forest Canvas Background -->
+          <canvas id="stage-map-bg-canvas" width="1920" height="1080"></canvas>
+          <div class="forest-vignette-overlay"></div>
+
+          <!-- Top Heraldic Wooden Banner & Navigation -->
+          <header class="overworld-top-nav">
+            <button id="btn-stage-select-back" class="wooden-carved-btn btn-back-title" type="button" title="Return to Title Realm">
+              <svg class="rpg-svg-icon" viewBox="0 0 24 24"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20v-2z"/></svg>
+              <span>Title Realm</span>
+            </button>
+
+            <div class="overworld-title-banner">
+              <div class="banner-finial finial-left"></div>
+              <div class="banner-body">
+                <h2 class="overworld-banner-heading">EXPEDITION OVERWORLD</h2>
+                <span class="overworld-banner-sub">Select an ancient territory to advance the Order of Arithmetic</span>
+              </div>
+              <div class="banner-finial finial-right"></div>
+            </div>
+
+            <button id="btn-unlock-all" class="wooden-carved-btn btn-unlock-realm" type="button" title="Unseal all territory gates">
+              <svg class="rpg-svg-icon" viewBox="0 0 24 24"><path d="M12 1c-2.8 0-5 2.2-5 5v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2h-7V6c0-1.7 1.4-3.1 3.1-3.1 1.7 0 3.1 1.4 3.1 3.1v1h2V6c0-2.8-2.2-5-5-5zm0 12c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/></svg>
+              <span>Unseal All Gates</span>
+            </button>
+          </header>
+
+          <!-- Overworld Spatial Trail & Map Viewport -->
+          <div class="overworld-map-viewport">
+            <!-- Winding Arcane Trail SVG (Connected across the 6 territory nodes) -->
+            <svg class="overworld-trail-canvas" viewBox="0 0 1920 1080">
+              <defs>
+                <filter id="trail-glow-fx" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="5" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+              <!-- Base Earthen/Stone Track -->
+              <path class="trail-earth-stroke" d="M 345 740 Q 480 630 614 518 Q 768 590 921 734 Q 1075 640 1228 518 Q 1382 390 1536 367 Q 1248 237 960 216" />
+              <!-- Luminous Arcane Golden Trail Dash -->
+              <path class="trail-gold-dash" d="M 345 740 Q 480 630 614 518 Q 768 590 921 734 Q 1075 640 1228 518 Q 1382 390 1536 367 Q 1248 237 960 216" />
+            </svg>
+
+            <!-- 6 Spatial Interactive Map Territory Medallions -->
+            <div id="overworld-nodes-container" class="overworld-nodes-container">
+              <!-- Dynamically populated and updated by HUD.js -->
+            </div>
+
+            <!-- Bottom-Left: Order of Arithmetic Party Command Dock -->
+            <div id="party-roster-dock" class="party-roster-dock">
+              <div class="roster-dock-title">
+                <svg class="rpg-svg-icon icon-shield" viewBox="0 0 24 24"><path d="M12 2L4 5v6.1c0 5.6 3.4 10.7 8 11.9 4.6-1.2 8-6.3 8-11.9V5l-8-3z"/></svg>
+                <span>THE FOUR KNIGHTS</span>
+              </div>
+              <div class="roster-portrait-row">
+                <button class="roster-portrait-btn portrait-knight active" type="button" data-hero="knight" title="Inspect Knight (-)">
+                  <div class="portrait-halo halo-knight"></div>
+                  <span class="portrait-op-rune">−</span>
+                  <span class="portrait-class-name">Knight</span>
+                </button>
+                <button class="roster-portrait-btn portrait-berserker" type="button" data-hero="berserker" title="Inspect Berserker (÷)">
+                  <div class="portrait-halo halo-berserker"></div>
+                  <span class="portrait-op-rune">÷</span>
+                  <span class="portrait-class-name">Berserker</span>
+                </button>
+                <button class="roster-portrait-btn portrait-cleric" type="button" data-hero="cleric" title="Inspect Cleric (+)">
+                  <div class="portrait-halo halo-cleric"></div>
+                  <span class="portrait-op-rune">+</span>
+                  <span class="portrait-class-name">Cleric</span>
+                </button>
+                <button class="roster-portrait-btn portrait-paladin" type="button" data-hero="paladin" title="Inspect Paladin (×)">
+                  <div class="portrait-halo halo-paladin"></div>
+                  <span class="portrait-op-rune">×</span>
+                  <span class="portrait-class-name">Paladin</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Floating Hero Dossier Parchment Card (Opens when clicking any hero portrait) -->
+            <div id="hero-floating-dossier" class="hero-floating-dossier hidden">
+              <button id="btn-close-hero-dossier" class="wax-seal-close-btn" type="button" title="Close Dossier">✕</button>
+              <div class="dossier-inner-parchment">
+                <div class="dossier-hero-stage">
+                  <canvas id="hero-dossier-canvas" width="220" height="230"></canvas>
+                  <div id="dossier-op-badge" class="dossier-op-badge">−</div>
+                </div>
+                <div class="dossier-text-block">
+                  <div class="dossier-hero-header">
+                    <h3 id="dossier-hero-name" class="dossier-hero-name">Knight</h3>
+                    <span id="dossier-hero-hp" class="dossier-hp-badge">40 Vitality</span>
+                  </div>
+                  <span id="dossier-hero-title" class="dossier-hero-title">The Subtractor • Frontline Striker</span>
+                  <p id="dossier-hero-desc" class="dossier-hero-desc">
+                    Cleaves through enemy fortitude, directly subtracting his held stone value from corrupted vitality.
+                  </p>
+                  <div id="dossier-tactical-tip" class="dossier-tactical-tip">
+                    Scholar's Counsel: Delivers reliable armor-piercing damage and precise finishing blows.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Territory Waypoint Navigation Ribbon ("เลื่อนดูด่านบนแผนที่") -->
+            <nav id="overworld-territory-ribbon" class="overworld-territory-ribbon">
+              <button id="btn-ribbon-prev" class="ribbon-arrow-btn" type="button" title="Previous Territory (◀)">◀</button>
+              <div id="territory-ribbon-pills" class="territory-ribbon-pills">
+                <!-- Dynamically populated: Territory I through VI -->
+              </div>
+              <button id="btn-ribbon-next" class="ribbon-arrow-btn" type="button" title="Next Territory (▶)">▶</button>
+            </nav>
+          </div>
+
+          <!-- Parchment Briefing Scroll Modal with Darkened Atmospheric Backdrop (Outside Map Viewport to guarantee highest z-index) -->
+          <div id="stage-briefing-modal-wrapper" class="stage-briefing-modal-wrapper hidden">
+            <div id="stage-briefing-backdrop" class="stage-briefing-backdrop"></div>
+            
+            <div id="stage-briefing-scroll" class="parchment-scroll-modal">
+              <!-- Close Wax Seal Button (Positioned safely inside top-right corner with ample clearance) -->
+              <button id="btn-close-briefing" class="wax-seal-close-btn briefing-close-seal" type="button" title="Close Briefing (Esc)">✕</button>
+
+              <!-- Wooden Rod Top -->
+              <div class="scroll-rod rod-top">
+                <div class="rod-finial finial-left"></div>
+                <div class="rod-wood"></div>
+                <div class="rod-finial finial-right"></div>
+              </div>
+
+              <!-- Parchment Scroll Body -->
+              <div class="scroll-parchment-body">
+                <!-- Briefing Header with Territory Switcher (◀ / ▶) for easy stage browsing ("เลื่อนดูด่าน") -->
+                <div class="scroll-header">
+                  <div class="briefing-nav-strip">
+                    <button id="btn-briefing-prev" class="scroll-nav-arrow-btn" type="button" title="Previous Territory (Left Arrow)">
+                      <svg class="rpg-svg-icon" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                      <span>PREV</span>
+                    </button>
+                    <div class="briefing-titles-center">
+                      <span id="briefing-stage-badge" class="scroll-rank-banner">TERRITORY I</span>
+                      <h2 id="briefing-stage-title" class="scroll-stage-title">The Monomial Threshold</h2>
+                    </div>
+                    <button id="btn-briefing-next" class="scroll-nav-arrow-btn" type="button" title="Next Territory (Right Arrow)">
+                      <span>NEXT</span>
+                      <svg class="rpg-svg-icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                    </button>
+                  </div>
+                  <span id="briefing-stage-status" class="scroll-status-seal status-open">GATE UNSEALED</span>
+                </div>
+
+                <div class="scroll-divider">
+                  <span class="scroll-divider-ornament">❖</span>
+                </div>
+
+                <p id="briefing-stage-desc" class="scroll-lore-text">
+                  A corrupted threshold of basic numerical anomalies. Subtraction and division carve swift path through their ranks.
+                </p>
+
+                <!-- Corrupted Anomaly Bestiary Section -->
+                <div class="scroll-bestiary-section">
+                  <div class="bestiary-title-bar">
+                    <span>CORRUPTED ANOMALY DOSSIER</span>
+                    <span id="briefing-enemy-count" class="bestiary-count-tag">2 Targets</span>
+                  </div>
+                  <div id="briefing-enemies-grid" class="scroll-enemies-grid">
+                    <!-- Dynamic enemy cards populated in HUD.js -->
+                  </div>
+                </div>
+
+                <!-- Chunky 3D Medieval Action Button & Close Footer Button -->
+                <div class="scroll-action-row">
+                  <button id="btn-briefing-deploy" class="chunky-rpg-btn btn-march-forth" type="button">
+                    <svg class="rpg-svg-icon icon-swords" viewBox="0 0 24 24"><path d="M14.7 3.3a1 1 0 0 0-1.4 0L8.6 8 4 6.7a1 1 0 0 0-1.2 1.2L4 12.6l-2.7 2.7a1 1 0 0 0 0 1.4l2 2a1 1 0 0 0 1.4 0L7.4 16l4.7 1.2a1 1 0 0 0 1.2-1.2L12 11.4l4.7-4.7a1 1 0 0 0 0-1.4l-2-2z"/></svg>
+                    <span id="briefing-deploy-label">MARCH INTO BATTLE</span>
+                  </button>
+                  <button id="btn-briefing-close-footer" class="scroll-close-link-btn" type="button">
+                    <span>RETURN TO OVERWORLD MAP</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Wooden Rod Bottom -->
+              <div class="scroll-rod rod-bottom">
+                <div class="rod-finial finial-left"></div>
+                <div class="rod-wood"></div>
+                <div class="rod-finial finial-right"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ====================================================================
+             SCREEN 3: GAMEPLAY SCREEN (Centered Seamless Battle Chronicle)
+             ==================================================================== -->
+        <div id="gameplay-hud" class="gameplay-hud-layout hidden">
+          <!-- Top HUD Header Bar -->
+          <header class="hud-top-bar">
+            <div class="hud-left-section">
+              <div class="brand-badge">
+                <span class="brand-crest">
+                  <svg class="rpg-svg-icon" viewBox="0 0 24 24"><path d="M14.7 3.3a1 1 0 0 0-1.4 0L8.6 8 4 6.7a1 1 0 0 0-1.2 1.2L4 12.6l-2.7 2.7a1 1 0 0 0 0 1.4l2 2a1 1 0 0 0 1.4 0L7.4 16l4.7 1.2a1 1 0 0 0 1.2-1.2L12 11.4l4.7-4.7a1 1 0 0 0 0-1.4l-2-2z"/></svg>
+                </span>
+                <div>
+                  <h1 id="hud-stage-title" class="hud-stage-title">Floor 1: The Monomial Threshold</h1>
+                  <p id="hud-stage-desc" class="hud-stage-desc">Numerical anomalies corrupt the realm.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="hud-center-section">
+              <div id="hud-phase-badge" class="hud-badge phase-player">PLAYER PHASE</div>
+              <div class="ap-container">
+                <span class="ap-label">ACTION POINTS:</span>
+                <div id="hud-ap-crystals" class="ap-crystals-row">
+                  <div class="ap-crystal active"></div>
+                  <div class="ap-crystal active"></div>
+                  <div class="ap-crystal active"></div>
+                </div>
+              </div>
+              <div id="hud-round" class="hud-badge round-badge">Round 1</div>
+            </div>
+
+            <div class="hud-right-section">
+              <div id="hud-score" class="hud-badge score-badge">Score: 0</div>
+              <button id="btn-stages" class="hud-icon-btn" title="Expedition Overworld Map">
+                <svg class="rpg-svg-icon" viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+              </button>
+              <button id="btn-mute" class="hud-icon-btn" title="Toggle Audio">
+                <svg class="rpg-svg-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+              </button>
+              <button id="btn-help" class="hud-icon-btn" title="Field Manual">
+                <svg class="rpg-svg-icon" viewBox="0 0 24 24"><path d="M19 3H7a4 4 0 0 0-4 4v10a4 4 0 0 0 4 4h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM7 5h12v12H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm0 14a2 2 0 0 1 0-4h12v2a2 2 0 0 1-2 2H7z"/></svg>
+              </button>
+              <button id="btn-pause" class="hud-icon-btn" title="Pause Game">
+                <svg class="rpg-svg-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+              </button>
+            </div>
+          </header>
+
+          <!-- Active Mathematical Axioms (Compact Corner Widget) -->
+          <div id="active-axioms-ledger" class="active-axioms-ledger hidden">
+            <div class="axioms-ledger-header">
+              <span class="axioms-header-seal">✦</span>
+              <span class="axioms-ledger-label">THEOREMS</span>
+            </div>
+            <div id="active-axioms-list" class="active-axioms-list">
+              <!-- Dynamically populated with compact axiom badges -->
+            </div>
+          </div>
+
+          <!-- Floating Action Preview Tooltip (Centered below Chronicle) -->
+          <div id="action-preview-tooltip" class="action-preview-tooltip hidden">
+            <div class="preview-header">Target Projection</div>
+            <div class="preview-calc">0 ➔ 0</div>
+            <div class="preview-summary">Projected Outcome</div>
+          </div>
+
+          <!-- Seamless Centered Battle Chronicle -->
+          <div id="combat-log-wrapper" class="combat-log-wrapper">
+            <div class="combat-log-header">
+              <span class="log-title">CHRONICLE</span>
+              <button id="btn-toggle-log" class="btn-toggle-log">Log ▼</button>
+            </div>
+            <div id="combat-log-entries" class="combat-log-entries">
+              <div class="combat-log-line log-round">Welcome to Arithma Knights! Equip numbers to take action.</div>
+            </div>
+          </div>
+
+          <!-- Bottom Battle Command Center -->
+          <footer class="hud-bottom-bar">
+            <!-- Left: 4 Companion Hero Cards -->
+            <div id="hero-cards-container" class="hero-cards-container">
+              <!-- Dynamically populated by HUD.js -->
+            </div>
+
+            <!-- Center: Shared Random Number Pool -->
+            <div class="number-pool-panel">
+              <div class="pool-header">
+                <span class="pool-title">NUMBER POOL</span>
+                <span class="pool-hint">Free Action: Click number ➔ Click Hero to equip</span>
+              </div>
+              <div id="number-pool-tray" class="number-pool-tray">
+                <!-- Dynamically populated by HUD.js -->
+              </div>
+            </div>
+
+            <!-- Right: End Turn & Actions -->
+            <div class="turn-controls-panel">
+              <button id="btn-end-turn" class="btn-end-turn">
+                <span class="end-turn-text">END TURN</span>
+                <span class="end-turn-sub">[Space / E]</span>
+              </button>
+            </div>
+          </footer>
+        </div>
+
+        <!-- ====================================================================
+             IN-GAME POPUP MODALS (Authentic Medieval Fantasy Game Overlays)
+             ==================================================================== -->
+
+        <!-- 1. Field Manual Modal -->
+        <div id="help-modal" class="overlay-modal help-modal-layout hidden">
+          <h2 class="modal-title">TACTICAL FIELD MANUAL</h2>
+          <div class="help-scroll-content">
+            <div class="help-rule-card">
+              <h3>1. Turn Flow &amp; Action Points (3 AP)</h3>
+              <p>Each round, you receive <strong>3 Action Points</strong> and a fresh shared <strong>Number Pool (4 stones)</strong>.</p>
+              <ul>
+                <li><strong>Equip Numbers (Free Action / 0 AP):</strong> Select a number stone from the pool, then choose a living hero to arm them for the round.</li>
+                <li><strong>Execute Skills (Costs 1 AP):</strong> Select an armed hero to ready their stance, then target an anomaly or ally to unleash their arithmetic strike.</li>
+                <li><strong>End Turn:</strong> Round concludes when AP reaches 0, or press <em>END TURN</em> at any moment to preserve party advantage.</li>
+              </ul>
+            </div>
+
+            <div class="help-rule-card">
+              <h3>2. The Four Arithmetic Orders</h3>
+              <div class="heroes-grid-guide">
+                <div class="guide-hero-box guide-knight">
+                  <div class="guide-hero-head"><strong>Knight (−)</strong> • 40 Vitality</div>
+                  <p>The Subtractor. Cleaves enemy vitality by subtracting his held number directly. Precise, reliable, and lethal against wounded foes.</p>
+                </div>
+                <div class="guide-hero-box guide-berserker">
+                  <div class="guide-hero-head"><strong>Berserker (÷)</strong> • 35 Vitality</div>
+                  <p>The Divider. Delivers catastrophic dividing cleaves that halve and quarter enemy health pools. Unrivaled against titanic bosses.</p>
+                </div>
+                <div class="guide-hero-box guide-cleric">
+                  <div class="guide-hero-head"><strong>Cleric (+)</strong> • 30 Vitality</div>
+                  <p>The Adder. Channels sacred restoration, adding her held number to mend ally wounds and preserve the party gauntlet.</p>
+                </div>
+                <div class="guide-hero-box guide-paladin">
+                  <div class="guide-hero-head"><strong>Paladin (×)</strong> • 45 Vitality</div>
+                  <p>The Multiplier. Charges holy fervor (+1x each round, up to ×3), empowering an armed ally's stone by multiplying its potency.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="help-rule-card">
+              <h3>3. Campaign Progression &amp; Valor Score</h3>
+              <p>Conquer all <strong>6 Overworld Territories</strong>, overcoming the binary titan <strong>Big Int</strong> (Floor 5) and the cataclysmic <strong>Factorio</strong> (Floor 6)!</p>
+              <div class="guide-formula">
+                Valor Score = max(0, (Floor × 1,000) + (Party Living Vitality × 10) − (Rounds Taken × 50))
+              </div>
+            </div>
+          </div>
+          <button id="btn-close-help" class="modal-primary-btn">CLOSE MANUAL</button>
+        </div>
+
+        <!-- 2. Pause Modal -->
+        <div id="pause-modal" class="overlay-modal hidden">
+          <h2 class="modal-title">GAME PAUSED</h2>
+          <p class="modal-desc">Expedition temporarily suspended.</p>
+          <div class="modal-btn-row">
+            <button id="btn-resume" class="modal-primary-btn">RESUME [ESC]</button>
+            <button id="btn-pause-stage-select" class="modal-secondary-btn">STAGE MAP</button>
+            <button id="btn-pause-restart" class="modal-secondary-btn">RETRY FLOOR</button>
+            <button id="btn-pause-menu" class="modal-secondary-btn">TITLE REALM</button>
+          </div>
+        </div>
+
+        <!-- 3. Stage Clear Modal -->
+        <div id="stage-clear-modal" class="overlay-modal stage-clear-layout hidden">
+          <div class="stage-clear-header-row">
+            <div class="modal-crest mini-crest">
+              <svg class="rpg-svg-icon modal-crest-svg" viewBox="0 0 24 24"><path d="M5 19h14v2H5v-2zm14-14l-4 7-3-5-3 5-4-7-2 12h18L19 5z"/></svg>
+            </div>
+            <div class="stage-clear-title-block">
+              <h2 class="modal-title stage-clear-title">FLOOR LIBERATED!</h2>
+              <h3 id="clear-stage-name" class="clear-stage-subtitle">Floor 1 Cleared</h3>
+            </div>
+          </div>
+
+          <!-- Compact Horizontal Score Strip -->
+          <div class="score-breakdown-card compact-score-strip">
+            <div class="score-chip">
+              <span class="chip-label">Floor Bonus</span>
+              <strong id="clear-stage-bonus" class="score-val gold">+1,000 pts</strong>
+            </div>
+            <div class="score-chip">
+              <span class="chip-label">Knights Bonus</span>
+              <strong id="clear-hp-bonus" class="score-val green">+1,200 pts</strong>
+            </div>
+            <div class="score-chip">
+              <span class="chip-label">Round Penalty</span>
+              <strong id="clear-round-penalty" class="score-val red">-100 pts (2 Rounds)</strong>
+            </div>
+            <div class="score-chip-divider"></div>
+            <div class="score-chip highlight-chip">
+              <span class="chip-label">Floor Score</span>
+              <strong id="clear-stage-score" class="score-val highlight">2,100 pts</strong>
+            </div>
+            <div class="score-chip highlight-chip-gold">
+              <span class="chip-label">Campaign Total</span>
+              <strong id="clear-total-score" class="score-val highlight-gold">2,100 pts</strong>
+            </div>
+          </div>
+
+          <!-- Roguelike Mathematical Axioms Draft Section -->
+          <div id="axiom-draft-section" class="axiom-draft-section hidden">
+            <div class="axiom-draft-banner compact-draft-banner">
+              <span class="axiom-banner-seal">
+                <svg class="rpg-svg-icon" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </span>
+              <div class="axiom-banner-text">
+                <h4 class="axiom-banner-title">SANCTUM OF MATHEMATICAL AXIOMS</h4>
+                <p class="axiom-banner-subtitle">Choose 1 of 3 Divine Theorems to empower your Knights across the expedition:</p>
+              </div>
+            </div>
+            <div id="axiom-draft-cards" class="axiom-draft-cards">
+              <!-- Dynamically populated by HUD with 3 draft cards in English -->
+            </div>
+            <div id="axiom-draft-hint" class="axiom-draft-hint">Please choose a Mathematical Theorem before advancing.</div>
+          </div>
+
+          <div class="modal-btn-row">
+            <button id="btn-next-stage" class="modal-primary-btn">ADVANCE EXPEDITION</button>
+            <button id="btn-clear-stage-select" class="modal-secondary-btn">STAGE MAP</button>
+            <button id="btn-clear-menu" class="modal-secondary-btn">TITLE REALM</button>
+          </div>
+        </div>
+
+        <!-- 4. Game Over Modal -->
+        <div id="game-over-modal" class="overlay-modal game-over-layout hidden">
+          <div class="modal-crest">
+            <svg class="rpg-svg-icon modal-crest-svg skull-crest-svg" viewBox="0 0 24 24"><path d="M12 2C7.6 2 4 5.6 4 10c0 2.4 1 4.6 2.7 6.1.4.3.6.8.6 1.3V19c0 .6.4 1 1 1h1v1c0 .6.4 1 1 1h3c.6 0 1-.4 1-1v-1h1c.6 0 1-.4 1-1v-1.6c0-.5.2-1 .6-1.3C19 14.6 20 12.4 20 10c0-4.4-3.6-8-8-8zm-3 10a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm6 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
+          </div>
+          <h2 class="modal-title defeat-title">EXPEDITION FAILED</h2>
+          <p class="modal-desc">The Four Knights fell to numerical corruption in the dungeon.</p>
+          <div class="score-breakdown-card">
+            <div class="score-row">
+              <span>Floor Reached:</span>
+              <strong id="gameover-stage-reached" class="score-val">Floor 1</strong>
+            </div>
+            <div class="score-row">
+              <span>Campaign Score:</span>
+              <strong id="gameover-total-score" class="score-val highlight-gold">0 pts</strong>
+            </div>
+          </div>
+          <div class="modal-btn-row">
+            <button id="btn-game-over-restart" class="modal-primary-btn">RESURRECT PARTY</button>
+            <button id="btn-gameover-stage-select" class="modal-secondary-btn">STAGE MAP</button>
+            <button id="btn-gameover-menu" class="modal-secondary-btn">TITLE REALM</button>
+          </div>
+        </div>
+
+        <!-- 5. Victory Modal -->
+        <div id="victory-modal" class="overlay-modal victory-layout hidden">
+          <div class="modal-crest">
+            <svg class="rpg-svg-icon modal-crest-svg crown-crest-svg" viewBox="0 0 24 24"><path d="M5 19h14v2H5v-2zm14-14l-4 7-3-5-3 5-4-7-2 12h18L19 5z"/></svg>
+          </div>
+          <h1 class="modal-title victory-title">GRAND REALM RESTORED!</h1>
+          <p class="modal-desc">Factorio and all Numerical Anomalies have been vanquished! The realm is restored to harmony.</p>
+
+          <div class="score-breakdown-card">
+            <div class="score-row">
+              <span>Final Grand Score:</span>
+              <strong id="victory-final-score" class="score-val highlight-gold">18,500 pts</strong>
+            </div>
+            <div class="score-row">
+              <span>Total Campaign Rounds:</span>
+              <strong id="victory-total-rounds" class="score-val">14 Rounds</strong>
+            </div>
+            <div class="score-row">
+              <span>Surviving Knights:</span>
+              <strong id="victory-survivors" class="score-val green">4 / 4 Knights Standing</strong>
+            </div>
+            <div class="victory-honor-badge">
+              RANK: GRAND MATHEMAGUS (S-RANK)
+            </div>
+          </div>
+
+          <div class="modal-btn-row">
+            <button id="btn-victory-restart" class="modal-primary-btn">NEW EXPEDITION</button>
+            <button id="btn-victory-stage-select" class="modal-secondary-btn">STAGE MAP</button>
+            <button id="btn-victory-menu" class="modal-secondary-btn">TITLE REALM</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Entry Point (ES Modules) -->
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
